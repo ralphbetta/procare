@@ -87,14 +87,12 @@ Created by [ralphbetta](https://github.com/ralphbetta/procare) - feel free to co
 
 
 ## Download
->You can download the app [here](https://appsenjoy.com/files/e24be601a1795685546cec9ba5328e20.apk)
->
+>You can download the app [here](https://appsenjoy.com/files/bd87838b063d53dcffbfdc5559ac7e35.apk)>
 
 This app is hosted by a third party hosting provider.
 
 ## License
->You can check out the full license [here](https://github.com/ralphbetta/procare/blob/main/LICENSE)
->
+>You can check out the full license [here](https://github.com/ralphbetta/procare/blob/main/LICENSE)>
 
 This project is licensed under the terms of the **MIT** license.
 
