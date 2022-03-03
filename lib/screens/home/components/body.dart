@@ -4,11 +4,13 @@ import 'package:flutter/painting.dart';
 import 'package:procare_app/components/circle_icon.dart';
 import 'package:procare_app/components/circle_image.dart';
 import 'package:procare_app/components/home_app_bar.dart';
+import 'package:procare_app/controller/user_notifier.dart';
 import 'package:procare_app/screens/about/about_screen.dart';
 import 'package:procare_app/screens/appointments/appointment_screen.dart';
 import 'package:procare_app/screens/chat/chat_screen.dart';
 import 'package:procare_app/screens/home/home_screen.dart';
 import 'package:procare_app/theme.dart';
+import 'package:provider/src/provider.dart';
 
 import '../../../constants.dart';
 
@@ -21,6 +23,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> with TickerProviderStateMixin {
   int currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,13 +149,13 @@ class _BodyState extends State<Body> with TickerProviderStateMixin {
             Container(
               width: getPercentageWidth(100),
               padding: EdgeInsets.only(left: getPercentageWidth(5)),
-              height: 80,
+              height: 89,
               child: ListView.builder(
                   itemCount: 3,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (_, index) {
                     return DoctorsCard(
-                      pix: 'assets/images/' + doctors[index],
+                      doctDetails: appointmentDetails[index]
                     );
                   }),
             ),
@@ -166,7 +169,7 @@ class _BodyState extends State<Body> with TickerProviderStateMixin {
             //this is where the appointment, contact us, our service and about us cards are.
             SizedBox(
               //color: Colors.red,
-              height: getPercentageHeight(27),
+              height: getPercentageHeight(26),
               width: getPercentageWidth(90),
               child: GridView.count(
                 crossAxisCount: 2,
@@ -300,10 +303,10 @@ class Separator extends StatelessWidget {
 }
 
 class DoctorsCard extends StatelessWidget {
-  final String pix;
+  final Map<String, String> doctDetails;
   const DoctorsCard({
     Key? key,
-    required this.pix,
+    required this.doctDetails,
   }) : super(key: key);
 
   @override
@@ -319,7 +322,7 @@ class DoctorsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircledImages(
-            image: pix,
+            image: doctDetails['image']!,
             line: false,
             radius: 40,
           ),
@@ -330,7 +333,7 @@ class DoctorsCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Dr Gloria Williams',
+                doctDetails['name']!,
                 style: skipText.copyWith(fontSize: 15, color: nearBlack),
               ),
               const SizedBox(

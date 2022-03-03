@@ -8,8 +8,9 @@ class User{
   late String? nextOfKin;
   late String? password;
   late int? NOKPhone;
+  late String? Dp;
 
-  User({this.dob, this.phone, this.email, this.homeAddress, this.nextOfKin, this.NOKPhone, this.password, this.fullName, this.gender});
+  User({this.dob, this.phone, this.email, this.homeAddress, this.nextOfKin, this.NOKPhone, this.password, this.fullName, this.gender, this.Dp});
 
   factory User.fromJson(Map<String, dynamic>json){
     return User(
@@ -21,6 +22,7 @@ class User{
       homeAddress: json['homeAddress'] as String,
       nextOfKin: json['nextOfKin'] as String,
       NOKPhone: json['NOKPhone'] as int,
+      Dp: json['Dp'] as String,
     );
   }
 
@@ -34,6 +36,7 @@ class User{
     data['homeAddress'] = this.homeAddress;
     data['nextOfKin'] = this.nextOfKin;
     data['NOKPhone'] = this.NOKPhone;
+    data['Dp'] = this.Dp;
     return data;
   }
 }

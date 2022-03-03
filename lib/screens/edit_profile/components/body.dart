@@ -4,7 +4,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:procare_app/components/app_bar.dart';
 import 'package:procare_app/components/general_btn.dart';
+import 'package:procare_app/controller/user_notifier.dart';
+import 'package:procare_app/db/user_db.dart';
+import 'package:procare_app/model/user_model.dart';
+import 'package:procare_app/screens/home/home_screen.dart';
 import 'package:procare_app/screens/signup/signup_screen.dart';
+import 'package:provider/provider.dart';
+import '';
+import 'package:provider/src/provider.dart';
 
 import '../../../constants.dart';
 import '../../../theme.dart';
@@ -17,10 +24,57 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  late int _selectedColor = 0;
+  //0 for male and 1 for female
   final String dob = DateFormat.yMd().format(DateTime.now());
+
+  List<User> current_user = userList
+      .where((element) => element.email!.contains(emailController.text))
+      .toList();
+
+  String gender = "male";
+
+  _editUser(BuildContext context) {
+    var activeUser =
+        userList.where((user) => user.email!.contains(emailController.text));
+    debugPrint(activeUser.first.homeAddress);
+    fullNameController.text = activeUser.first.fullName!;
+  }
+
   @override
   Widget build(BuildContext context) {
+    debugPrint('state reset');
+    //here we initialize what comes into the form
+
+    dobController.text =
+        context.watch<UserNotifier>().finalUserList.first.dob.toString();
+    addressController.text = context
+        .watch<UserNotifier>()
+        .finalUserList
+        .first
+        .homeAddress
+        .toString();
+    nokNameController.text =
+        context.watch<UserNotifier>().finalUserList.first.nextOfKin.toString();
+    nokPhoneController.text =
+        context.watch<UserNotifier>().finalUserList.first.NOKPhone.toString();
+
+    fullNameController.text =
+        context.watch<UserNotifier>().finalUserList.first.fullName!;
+    phoneController.text =
+        context.watch<UserNotifier>().finalUserList.first.phone.toString();
+    dobController.text =
+        context.watch<UserNotifier>().finalUserList.first.dob ?? "empty";
+    addressController.text = context
+        .watch<UserNotifier>()
+        .finalUserList
+        .first
+        .homeAddress
+        .toString();
+    nokNameController.text =
+        context.watch<UserNotifier>().finalUserList.first.nextOfKin.toString();
+    nokPhoneController.text =
+        context.watch<UserNotifier>().finalUserList.first.NOKPhone.toString();
+
     return Scaffold(
       backgroundColor: btnColor,
       appBar: appBar('Edit Profile'),
@@ -60,7 +114,7 @@ class _BodyState extends State<Body> {
                           width: getPercentageWidth(25),
                           height: getPercentageWidth(25),
                           child: Image.asset(
-                            'assets/images/team2.jpg',
+                            context.watch<UserNotifier>().finalUserList.first.Dp!,
                           ),
                         ),
                       ),
@@ -87,6 +141,7 @@ class _BodyState extends State<Body> {
               SizedBox(
                 height: getPercentageHeight(2),
               ),
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -103,7 +158,8 @@ class _BodyState extends State<Body> {
                         color: formColor.withOpacity(0.4),
                         borderRadius: BorderRadius.circular(formRadius)),
                     child: TextFormField(
-                      //controller: _passwordController,
+                      controller: fullNameController,
+
                       keyboardType: TextInputType.text,
                       //obscureText: _isNotVisible?true:false,
                       decoration: _formDecoration('E.g Williams, Frank', true),
@@ -136,7 +192,7 @@ class _BodyState extends State<Body> {
                               color: formColor.withOpacity(0.4),
                               borderRadius: BorderRadius.circular(formRadius)),
                           child: TextFormField(
-                            //controller: _passwordController,
+                            controller: phoneController,
                             keyboardType: TextInputType.text,
                             //obscureText: _isNotVisible?true:false,
                             decoration: _formDecoration('0802 XXX XXXX', true),
@@ -160,7 +216,7 @@ class _BodyState extends State<Body> {
                               color: formColor.withOpacity(0.4),
                               borderRadius: BorderRadius.circular(formRadius)),
                           child: TextFormField(
-                            //controller: _passwordController,
+                            controller: dobController,
                             keyboardType: TextInputType.text,
                             //obscureText: _isNotVisible?true:false,
                             decoration: _formDecoration(dob, true),
@@ -175,37 +231,7 @@ class _BodyState extends State<Body> {
                 height: getPercentageHeight(1),
               ),
               //gender title
-              Container(
-                margin: EdgeInsets.only(left: getPercentageWidth(8)),
-                child: const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Gender',
-                    style: TextStyle(color: darkText),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: formInputWidth,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ...List.generate(
-                      2,
-                      (index) => GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedColor = index;
-                            });
-                          },
-                          child: CustomRadioBtn(
-                            selected: _selectedColor == index ? true : false,
-                            title: gender[index],
-                          )),
-                    )
-                  ],
-                ),
-              ),
+
               SizedBox(
                 height: getPercentageHeight(1),
               ),
@@ -225,7 +251,7 @@ class _BodyState extends State<Body> {
                         color: formColor.withOpacity(0.4),
                         borderRadius: BorderRadius.circular(formRadius)),
                     child: TextFormField(
-                      //controller: _passwordController,
+                      controller: addressController,
                       keyboardType: TextInputType.text,
                       //obscureText: _isNotVisible?true:false,
                       decoration: _formDecoration('123 Wills Street', true),
@@ -252,7 +278,7 @@ class _BodyState extends State<Body> {
                         color: formColor.withOpacity(0.4),
                         borderRadius: BorderRadius.circular(formRadius)),
                     child: TextFormField(
-                      //controller: _passwordController,
+                      controller: nokNameController,
                       keyboardType: TextInputType.text,
                       //obscureText: _isNotVisible?true:false,
                       decoration: _formDecoration('E.g Mr Jerry Frank', true),
@@ -279,7 +305,7 @@ class _BodyState extends State<Body> {
                         color: formColor.withOpacity(0.4),
                         borderRadius: BorderRadius.circular(formRadius)),
                     child: TextFormField(
-                      //controller: _passwordController,
+                      controller: nokPhoneController,
                       keyboardType: TextInputType.text,
                       //obscureText: _isNotVisible?true:false,
                       decoration: _formDecoration('0803 XXX XXXX', true),
@@ -295,16 +321,58 @@ class _BodyState extends State<Body> {
                   width: formInputWidth,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      GeneralBtn(
-                        title: 'Cancel',
-                        split: true,
-                        alternate: true,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: const GeneralBtn(
+                          title: 'Cancel',
+                          split: true,
+                          alternate: true,
+                        ),
                       ),
-                      GeneralBtn(
-                        title: 'Save',
-                        split: true,
-                        alternate: false,
+                      GestureDetector(
+                        onTap: () {
+                          //the provider value is not suitable brcause is in an ummodifiable list
+                          //User user =context.watch<UserNotifier>().finalUserList.first;
+                          User result = userList
+                              .where((element) =>
+                                  element.email!.contains(emailController.text))
+                              .first;
+                          // debugPrint(userList.indexOf(result).toString());
+                          int index = userList.indexOf(result);
+
+                          User _user = User(
+                              fullName: fullNameController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                              phone: int.tryParse(phoneController.text),
+                              NOKPhone: int.tryParse(nokPhoneController.text),
+                              homeAddress: addressController.text,
+                              nextOfKin: nokNameController.text,
+                              Dp: Provider.of<UserNotifier>(context, listen: false).finalUserList.first.Dp.toString(),
+                              dob: dobController.text);
+
+                          context.read<UserNotifier>().editUser(index, _user);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => HomeScreen(
+                                    sentCurrentPage: 0,
+                                  )));
+
+                          // debugPrint(_user.phone.toString());
+                          // debugPrint(fullNameController.text);
+                          // debugPrint(dobController.text);
+                          // debugPrint(addressController.text);
+                          // debugPrint(nokNameController.text);
+                          // debugPrint(nokPhoneController.text);
+                          // debugPrint(nokPhoneController.text);
+                        },
+                        child: const GeneralBtn(
+                          title: 'Save',
+                          split: true,
+                          alternate: false,
+                        ),
                       )
                     ],
                   )),
@@ -313,28 +381,6 @@ class _BodyState extends State<Body> {
               ),
               //or sign in
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ...List.generate(
-                      3,
-                      (index) => Container(
-                            margin: const EdgeInsets.only(right: 5),
-                            child: CircleAvatar(
-                              radius: 15,
-                              backgroundColor: socialColor[index],
-                              child: SvgPicture.asset(
-                                socials[index],
-                                height: 13,
-                                color: white,
-                              ),
-                            ),
-                          ))
-                ],
-              ),
-              SizedBox(
-                height: getPercentageHeight(3),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

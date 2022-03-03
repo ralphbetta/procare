@@ -42,7 +42,9 @@ class _BodyState extends State<Body> {
           userList.add(User(
               email: _emailController.text,
               password: _passwordController.text,
-              fullName: 'Anonymous'));
+              fullName: 'Anonymous',
+            Dp: "assets/images/anonymous.png"
+          ));
 
           irreversibleNavigate(context, SignInScreen());
         } else {

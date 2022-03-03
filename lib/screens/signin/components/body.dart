@@ -5,12 +5,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:procare_app/components/app_bar.dart';
 import 'package:procare_app/components/general_btn.dart';
 import 'package:procare_app/components/horizontal_line.dart';
+import 'package:procare_app/controller/user_notifier.dart';
 import 'package:procare_app/db/user_db.dart';
 import 'package:procare_app/model/user_model.dart';
 import 'package:procare_app/routes.dart';
 import 'package:procare_app/screens/home/home_screen.dart';
 import 'package:procare_app/screens/signup/signup_screen.dart';
 import 'package:procare_app/theme.dart';
+import 'package:provider/src/provider.dart';
 
 import '../../../constants.dart';
 
@@ -25,6 +27,10 @@ class _BodyState extends State<Body> {
   bool _isNotVisible = true;
   String isUser = "pending";
   String loginError = "";
+
+  // TextEditingController emailController = TextEditingController();
+
+  // TextEditingController passwordController = TextEditingController();
   Widget _ticker() {
     if (isUser == 'valid') {
       return validIcon;
@@ -37,20 +43,20 @@ class _BodyState extends State<Body> {
 
   //List <User> result = [];
   bool _remindMe = false;
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
 
   void _validate() {
-    if (_emailController.text.isNotEmpty &&
-        _passwordController.text.isNotEmpty) {
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
       //debugPrint('validate email and authenticate...');
       List<User> result = userList
-          .where((element) => element.email!.contains(_emailController.text))
+          .where((element) => element.email!.contains(emailController.text))
           .toList();
       if (result.isNotEmpty) {
-        if (result.first.password == _passwordController.text) {
+        if (result.first.password == passwordController.text) {
           print('logged in');
           print(result.first.fullName);
+          context.read<UserNotifier>().addUser(userList
+              .where((element) => element.email!.contains(emailController.text))
+              .first);
           irreversibleNavigate(
               context,
               HomeScreen(
@@ -70,7 +76,7 @@ class _BodyState extends State<Body> {
           loginError = 'user does not exist';
         });
       }
-    } else if (_emailController.text.isEmpty) {
+    } else if (emailController.text.isEmpty) {
       debugPrint('empty email');
     } else {
       debugPrint('password empty');
@@ -111,7 +117,7 @@ class _BodyState extends State<Body> {
                     color: formColor.withOpacity(0.4),
                     borderRadius: BorderRadius.circular(formRadius)),
                 child: TextFormField(
-                  controller: _emailController,
+                  controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration:
                       _formDecoration('Enter Email Address', false, _ticker()),
@@ -122,7 +128,6 @@ class _BodyState extends State<Body> {
                       });
                     }
                     if (value.isEmpty) {
-                      print('is empty');
                       setState(() {
                         isUser = 'pending';
                       });
@@ -134,7 +139,6 @@ class _BodyState extends State<Body> {
                       } else {
                         setState(() {
                           isUser = 'invalid';
-                          print(_ticker());
                         });
                       }
                       ;
@@ -156,7 +160,7 @@ class _BodyState extends State<Body> {
                     color: formColor.withOpacity(0.4),
                     borderRadius: BorderRadius.circular(formRadius)),
                 child: TextFormField(
-                  controller: _passwordController,
+                  controller: passwordController,
                   keyboardType: TextInputType.text,
                   obscureText: _isNotVisible ? true : false,
                   decoration:

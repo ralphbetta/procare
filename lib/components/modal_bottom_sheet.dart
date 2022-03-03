@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:procare_app/controller/user_notifier.dart';
 import 'package:procare_app/routes.dart';
 import 'package:procare_app/screens/edit_profile/edit_profile_screen.dart';
 import 'package:procare_app/screens/signin/singin_screen.dart';
+import 'package:provider/src/provider.dart';
 
 import '../constants.dart';
 import '../theme.dart';
@@ -89,7 +91,9 @@ void ModalBottomSheet(BuildContext context) {
                             symbol: settingDetails[2]['icon'])),
                     GestureDetector(
                         onTap: () {
+                          //print(emailController.text);
                           irreversibleNavigate(context, const SignInScreen());
+                          context.read<UserNotifier>().deleteUser(0);
                         },
                         child: SettingCard(
                             mainCaption: settingDetails[3]['main'],
@@ -205,5 +209,19 @@ class SettingCard extends StatelessWidget {
             )
           ],
         ));
+  }
+}
+
+class Logout extends StatefulWidget {
+  const Logout({Key? key}) : super(key: key);
+
+  @override
+  _LogoutState createState() => _LogoutState();
+}
+
+class _LogoutState extends State<Logout> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

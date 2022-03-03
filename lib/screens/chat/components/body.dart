@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:procare_app/components/circle_image.dart';
 import 'package:procare_app/components/empty_display.dart';
 import 'package:procare_app/components/modal_bottom_sheet.dart';
+import 'package:procare_app/controller/user_notifier.dart';
+import 'package:provider/src/provider.dart';
 
 import '../../../constants.dart';
 import '../../../theme.dart';
@@ -30,6 +32,13 @@ class _BodyState extends State<Body> {
   TextEditingController _msgController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    refreshData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: background,
@@ -44,10 +53,13 @@ class _BodyState extends State<Body> {
           SizedBox(
             width: getPercentageWidth(15),
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 8, bottom: 8),
+          Padding(
+            padding: const EdgeInsets.only(top: 8, bottom: 8),
             child: CircledImages(
-              image: 'assets/images/team5.jpg',
+              image: context.watch<UserNotifier>().finalUserList.first.email ==
+                      "user2@gmail.com"
+                  ? 'assets/images/team4.jpg'
+                  : 'assets/images/team2.jpg',
               radius: 40,
             ),
           ),
@@ -115,13 +127,14 @@ class _BodyState extends State<Body> {
                             time: _chats[index]['time'].toString(),
                           );
                         }))
-                : Center(
+                : const Center(
                     child: NotContentFlag(
                       errorMsg: "No Messages yet",
                       imagePath: "assets/icons/action2.png",
                     ),
                   ),
           ),
+          //messaging input
           Container(
             height: getPercentageHeight(11),
             width: getPercentageWidth(100),
@@ -156,7 +169,7 @@ class _BodyState extends State<Body> {
                         {
                           'senderID': 1,
                           'message': _msgController.text,
-                          'time': DateFormat.Hm(DateTime.now())
+                          'time': DateFormat.Hm().format(DateTime.now())
                         },
                       );
                       refreshData();

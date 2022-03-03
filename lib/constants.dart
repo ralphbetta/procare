@@ -309,30 +309,33 @@ String iconImage(iconImage) {
 List<Map<String, String>> appointmentDetails = [
   {
     'intent': 'Checkup',
-    'name': 'Eunice Umana',
+    'name': 'Dr. Eunice Umana',
     'note':
         'Discription of the reasons for booking this session which can be any reasons',
-    'image': 'assets/icons/Artboard 13medIcons.png',
+    'image': 'assets/images/team9.jpg',
   },
   {
     'intent': 'Medication',
-    'name': 'Mike Williams',
+    'name': 'Dr. Mike Williams',
     'note':
         'Discription of the reasons for booking this session which can be any reasons',
-    'image': 'assets/icons/Artboard 3medIcons.png',
+    'image': 'assets/images/team7.jpg',
   },
   {
     'intent': 'Product',
-    'name': 'Mike Williams',
+    'name': 'Dr Jane Danny',
     'note':
         'Discription of the reasons for booking this session which can be any reasons',
-    'image': 'assets/icons/Artboard 5medIcons.png',
-  },
-  {
-    'intent': 'Medication',
-    'name': 'Mike Williams',
-    'note':
-        'Discription of the reasons for booking this session which can be any reasons',
-    'image': 'assets/icons/morepent10.png',
+    'image': 'assets/images/team6.jpg',
   },
 ];
+
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+
+TextEditingController fullNameController = TextEditingController();
+TextEditingController dobController = TextEditingController();
+TextEditingController phoneController = TextEditingController();
+TextEditingController addressController = TextEditingController();
+TextEditingController nokNameController = TextEditingController();
+TextEditingController nokPhoneController = TextEditingController();

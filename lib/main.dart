@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:procare_app/controller/user_notifier.dart';
 import 'package:procare_app/routes.dart';
 import 'package:procare_app/screens/main/mian_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'controller/appointment_notifier.dart';
+
 void main() {
-  runApp(
-    MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => AppointmentNotifier()),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => AppointmentNotifier()),
+      ChangeNotifierProvider(create: (_) => UserNotifier()),
     ],
-    child:  MyApp(),)
-      );
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:procare_app/components/general_btn.dart';
+import 'package:procare_app/controller/appointment_notifier.dart';
 import 'package:procare_app/db/sqflit_appointment_db.dart';
 import 'package:procare_app/model/appointment_model.dart';
 import 'package:procare_app/screens/appointments/appointment_screen.dart';
 import 'package:procare_app/screens/home/home_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
 import '../../../theme.dart';
@@ -26,12 +28,15 @@ class _BodyState extends State<Body> {
     });
   }
 
-  Future<void> addAppointment(AppointmentModel appointmentModel) async {
-    await SQLHelper.createItem(appointmentModel);
-  }
+  // Future<void> addAppointment(AppointmentModel appointmentModel) async {
+  //   await SQLHelper.createItem(appointmentModel);
+  // }
 
   @override
   Widget build(BuildContext context) {
+    AppointmentNotifier appointmentNotifier =
+        Provider.of<AppointmentNotifier>(context);
+
     return Scaffold(
       // appBar: AppBar(
       //   elevation: 0,
@@ -238,19 +243,20 @@ class _BodyState extends State<Body> {
                                   intent: selectedValue,
                                   date: currentDate.toString(),
                                 );
-                                addAppointment(_newAppointment);
+                                appointmentNotifier
+                                    .addAppointment(_newAppointment);
                                 setState(() {
                                   noteController.text = '';
                                 });
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => HomeScreen(
+                                        builder: (context) => const HomeScreen(
                                               sentCurrentPage: 1,
                                             )));
                               }
                             },
-                            child: GeneralBtn(
+                            child: const GeneralBtn(
                               title: 'Proceed',
                               split: false,
                               alternate: false,
