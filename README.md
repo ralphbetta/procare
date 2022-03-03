@@ -10,6 +10,7 @@ A design of an ophthalmology clinical app
 * [Status](#status)
 * [Inspiration](#inspiration)
 * [Contact](#contact)
+* [Download](#download)
 * [License](#license)
 * [Contributing](#contributing)
 
@@ -83,6 +84,13 @@ This project is based on the goal of imporving my Dart and Flutter skills.
 
 ## Contact
 Created by [ralphbetta](https://github.com/ralphbetta/procare) - feel free to contact me!
+
+
+## Download
+>You can download the app [here](https://appsenjoy.com/files/e24be601a1795685546cec9ba5328e20.apk)
+>
+
+This app is hosted by a third party hosting provider.
 
 ## License
 >You can check out the full license [here](https://github.com/ralphbetta/procare/blob/main/LICENSE)
