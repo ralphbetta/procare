@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:procare_app/components/skip_btn.dart';
 import 'package:procare_app/constants.dart';
+import 'package:procare_app/controller/app_state_notifier.dart';
 import 'package:procare_app/routes.dart';
 import 'package:procare_app/screens/signin/singin_screen.dart';
 import 'package:procare_app/size_config.dart';
 import 'package:procare_app/theme.dart';
+import 'package:provider/src/provider.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -31,7 +33,9 @@ class _BodyState extends State<Body> with TickerProviderStateMixin {
           _currentPage==2?Container():
           GestureDetector(
               onTap: (){
+                context.read<AppStateNotifier>().StartApp();
                 irreversibleNavigate(context, const SignInScreen());
+
               },
               child: SkipBtn()),
           SizedBox(width: MediaQuery.of(context).size.width * sidePercent,)
@@ -96,6 +100,7 @@ class _BodyState extends State<Body> with TickerProviderStateMixin {
                   Expanded(child: Container()),
                   _currentPage==2?GestureDetector(
                       onTap: (){
+                        context.read<AppStateNotifier>().StartApp();
                         irreversibleNavigate(context, SignInScreen());
                       },
                       child: const GetStartedBtn()):Container(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:procare_app/controller/app_state_notifier.dart';
 import 'package:procare_app/controller/user_notifier.dart';
 import 'package:procare_app/routes.dart';
 import 'package:procare_app/screens/main/mian_screen.dart';
@@ -11,6 +12,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => AppointmentNotifier()),
       ChangeNotifierProvider(create: (_) => UserNotifier()),
+      ChangeNotifierProvider(create: (_) => AppStateNotifier()),
     ],
     child: MyApp(),
   ));
